@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>문의 | KCC 성원창호</title>
+<meta name="description" content="샷시 교체, 방충망, 창호 도소매 문의. 남겨주시면 성원창호가 확인하고 직접 연락드려요.">
+<link rel="icon" href="assets/brand/logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="assets/css/v2.css">
+<link rel="stylesheet" href="assets/css/v2-pages.css">
+</head>
+<body>
+<main>
+  <section class="sub-hero">
+    <div class="wrap row">
+      <div>
+        <span class="label-en" data-rv>Contact Us</span>
+        <h1 class="h-display split-t">Contact</h1>
+      </div>
+      <p data-rv style="--d:.3s">창호에 대해 궁금한 점을 남겨주세요.<br>확인하고 직접 연락드려요. 전화가 가장 빨라요.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:40px">
+    <div class="wrap contact-page">
+      <div class="c-info" data-rv>
+        <span class="label-ko">상담 전화</span>
+        <a class="big-tel" data-tel href="#" data-site="phone">010-3636-2079</a>
+        <dl class="info-tb">
+          <div><dt>상호</dt><dd data-site="nameFull">KCC 성원창호</dd></div>
+          <div><dt>대표</dt><dd data-site="owner">정대남</dd></div>
+          <div><dt>주소</dt><dd><span data-site="address">경기 화성시 정남면 덕절제기길 41-8</span><small>지번 덕절리 379</small></dd></div>
+          <div><dt>시공 지역</dt><dd>오산 · 화성 전 지역, 경기 · 서울</dd></div>
+        </dl>
+        <div class="visit btns" style="display:flex;gap:8px;margin-top:24px;flex-wrap:wrap">
+          <a class="btn fill" data-tel href="#">전화하기</a>
+          <a class="btn" data-map href="#">지도 보기</a>
+        </div>
+      </div>
+
+      <form class="inq light" data-inquiry novalidate data-rv style="--d:.15s">
+        <div class="inq-row"><span style="font-size:13px;color:var(--ink);font-weight:500">문의 종류</span>
+          <div class="inq-checks">
+            <label><input type="checkbox" name="work" value="full"><span>샷시 전체 교체</span></label>
+            <label><input type="checkbox" name="work" value="part"><span>일부 교체</span></label>
+            <label><input type="checkbox" name="work" value="screen"><span>방충망</span></label>
+            <label><input type="checkbox" name="work" value="unsure"><span>기타 · 도소매</span></label>
+          </div>
+        </div>
+        <div class="inq-row"><label for="c-name">성함 <em>*</em></label><input id="c-name" name="name" placeholder="성함을 입력해주세요" autocomplete="name"></div>
+        <div class="inq-row"><label for="c-phone">연락처 <em>*</em></label><input id="c-phone" name="phone" inputmode="numeric" maxlength="13" placeholder="연락처를 입력해주세요 (ex : 010-1234-5678)" autocomplete="tel"></div>
+        <div class="inq-row"><label for="c-region">지역 · 아파트</label><input id="c-region" name="region" placeholder="예 : 오산 원동 두산아파트"></div>
+        <div class="inq-row"><label for="c-size">평형 · 확장 여부</label><input id="c-size" name="size" placeholder="예 : 32평 확장형"></div>
+        <div class="inq-row"><label for="c-memo">문의내용</label><textarea id="c-memo" name="memo" rows="5" placeholder="문의 내용을 입력해주세요"></textarea></div>
+        <div class="inq-row"><label for="c-file">사진 (선택)</label><input id="c-file" type="file" accept="image/*" multiple></div>
+        <div class="inq-foot">
+          <label class="inq-agree"><input type="checkbox" name="agree"><span></span>개인정보처리방침에 동의합니다 <a href="privacy.html" target="_blank">보기</a></label>
+          <button class="inq-send" type="submit">문의하기<span class="ar"></span></button>
+        </div>
+        <p class="f-err" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/site.js"></script>
+<script>document.querySelector('.inq-send .ar').innerHTML = IC.arrow;</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>시공사례 | KCC 성원창호</title>
+<meta name="description" content="성원창호가 직접 시공한 아파트 · 주택 · 상가 현장 사진이에요. 오산, 화성, 평택, 수원, 용인, 의왕, 안양, 서울.">
+<link rel="icon" href="assets/brand/logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="assets/css/v2.css">
+<link rel="stylesheet" href="assets/css/v2-pages.css">
+</head>
+<body>
+<main>
+  <section class="sub-hero">
+    <div class="wrap row">
+      <div>
+        <span class="label-en" data-rv>Our Works</span>
+        <h1 class="h-display split-t">Works</h1>
+      </div>
+      <p data-rv style="--d:.3s">모든 사진은 성원창호가 직접 시공한 실제 현장이에요.<br>우리 동네, 우리 아파트와 비슷한 곳을 찾아보세요.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:20px">
+    <div class="wrap">
+      <div class="filter-bar" data-rv>
+        <div class="f-tabs" id="kinds">
+          <button class="on" data-k="all">전체</button>
+          <button data-k="apt">아파트</button>
+          <button data-k="house">주택 · 빌라</button>
+          <button data-k="etc">상가 · 특수 공사</button>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center">
+          <span class="gal-count" id="count"></span>
+          <select class="f-region" id="region" aria-label="지역으로 보기"><option value="">모든 지역</option></select>
+        </div>
+      </div>
+      <div class="gal" id="gal"></div>
+    </div>
+  </section>
+</main>
+
+<div class="lb" id="lb" hidden>
+  <button class="x" type="button">CLOSE</button>
+  <button class="pv" type="button" aria-label="이전 사진">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button class="nx" type="button" aria-label="다음 사진">›</button>
+</div>
+
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/cases-data.js"></script>
+<script>
+(function () {
+  const TAG = { apt: 'Apartment', house: 'House', etc: 'Commercial' };
+  document.getElementById('gal').innerHTML = CASES.map((c, i) => `
+    <button class="gal-item" type="button" data-i="${i}" data-k="${c.kind}" data-r="${c.region}">
+      <span class="im"><img src="assets/img/real/${c.img}" alt="${c.t} 시공 사진" loading="lazy"></span>
+      <span class="tx"><span class="en">${TAG[c.kind]} · ${c.region}</span><b>${c.t}</b></span>
+    </button>`).join('');
+  const regions = [...new Set(CASES.map(c => c.region))].filter(r => r !== '기타');
+  document.getElementById('region').insertAdjacentHTML('beforeend', regions.map(r => `<option>${r}</option>`).join(''));
+})();
+</script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  const items = [...document.querySelectorAll('.gal-item')];
+  let kind = 'all', region = '';
+  const apply = () => {
+    let n = 0;
+    items.forEach(el => {
+      const show = (kind === 'all' || el.dataset.k === kind) && (!region || el.dataset.r === region);
+      el.hidden = !show;
+      if (show) { el.style.animationDelay = (n * .04) + 's'; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); n++; }
+    });
+    document.getElementById('count').textContent = `${n} Projects`;
+  };
+  document.getElementById('kinds').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    kind = b.dataset.k;
+    document.querySelectorAll('#kinds button').forEach(x => x.classList.toggle('on', x === b));
+    apply();
+  });
+  document.getElementById('region').addEventListener('change', e => { region = e.target.value; apply(); });
+  apply();
+
+  const lb = document.getElementById('lb'), img = lb.querySelector('img'), cap = lb.querySelector('figcaption');
+  let cur = 0;
+  const vis = () => items.filter(x => !x.hidden);
+  const show = i => {
+    const v = vis(); cur = (i + v.length) % v.length;
+    const c = CASES[+v[cur].dataset.i];
+    img.src = 'assets/img/real/' + c.img; img.alt = c.t;
+    cap.innerHTML = `<b>${c.t}</b><span class="en">${cur + 1} / ${v.length}</span>`;
+  };
+  document.getElementById('gal').addEventListener('click', e => {
+    const b = e.target.closest('.gal-item'); if (!b) return;
+    show(vis().indexOf(b)); lb.hidden = false; document.body.style.overflow = 'hidden';
+  });
+  const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+  lb.querySelector('.x').onclick = close;
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  lb.querySelector('.pv').onclick = () => show(cur - 1);
+  lb.querySelector('.nx').onclick = () => show(cur + 1);
+  addEventListener('keydown', e => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
+  let sx = null;
+  lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); sx = null; });
+})();
+</script>
+</body>
+</html>
